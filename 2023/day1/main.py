@@ -32,9 +32,9 @@ class Solution:
 if __name__ == '__main__':
     s = Solution()
     print('Part 1')
-    print(f"- Sample: {s.solve('sample.txt')}")
+    print(f"- Example: {s.solve('example.txt')}")
     print(f"- Actual: {s.solve('input.txt')}")
 
     print('Part 2')
-    print(f"- Sample: {s.solve2('sample2.txt')}")
+    print(f"- Example: {s.solve2('example2.txt')}")
     print(f"- Actual: {s.solve2('input.txt')}")
