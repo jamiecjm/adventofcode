@@ -37,4 +37,4 @@ if __name__ == '__main__':
 
     print('Part 2')
     print(f"- Sample: {s.solve2('sample2.txt')}")
-    print(f"- Actual: {s.solve2('input2.txt')}")
+    print(f"- Actual: {s.solve2('input.txt')}")

@@ -1,32 +1,53 @@
 import re
+import os
+
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
 class Solution:
+    cubes = {'red': 12, 'green': 13, 'blue': 14}
+
     def solve(self, file):
         total = 0
         # Read input from input.txt
-        with open(file, 'r') as f:
+        with open(os.path.join(__location__, file), 'r') as f:
             lines = f.readlines()
         for line in lines:
-            # Find all digits in the line
-            digits = re.findall(r'(\d)', line.strip())
-            total += int(digits[0] + digits[-1])
+            line = line.strip()
+            game = re.findall(r'Game (\d+):', line)[0]
+
+            if self.check_validity(line, 'red') and self.check_validity(line, 'green') and self.check_validity(line, 'blue'):
+                total += int(game)
+
         return total
 
+    def check_validity(self, line, colour):
+        counts = map(int, re.findall(rf'(\d+) {colour}', line))
+
+        for count in counts:
+            if count > self.cubes[colour]:
+                return False
+
+        return True
+
     def solve2(self, file):
-        word_mappings = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
-                         'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'}
         total = 0
         # Read input from input.txt
-        with open(file, 'r') as f:
+        with open(os.path.join(__location__, file), 'r') as f:
             lines = f.readlines()
         for line in lines:
-            # Find all digits in the line
-            digits = re.findall(
-                fr'(?=([\d]|{"|".join(word_mappings)}))', line.strip())
-            total += int((word_mappings.get(digits[0]) or digits[0]) +
-                         (word_mappings.get(digits[-1]) or digits[-1]))
+            line = line.strip()
+
+            total += (self.find_smallest(line, 'red') * self.find_smallest(line,
+                      'green') * self.find_smallest(line, 'blue'))
+
         return total
+
+    def find_smallest(self, line, colour):
+        counts = list(map(int, re.findall(rf'(\d+) {colour}', line)))
+
+        return max(counts)
 
 
 if __name__ == '__main__':
@@ -36,5 +57,5 @@ if __name__ == '__main__':
     print(f"- Actual: {s.solve('input.txt')}")
 
     print('Part 2')
-    print(f"- Sample: {s.solve2('sample2.txt')}")
-    print(f"- Actual: {s.solve2('input2.txt')}")
+    print(f"- Sample: {s.solve2('sample.txt')}")
+    print(f"- Actual: {s.solve2('input.txt')}")
